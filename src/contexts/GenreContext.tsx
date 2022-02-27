@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { api } from "../services/api";
 
 interface GenreContextProps {
@@ -25,9 +25,9 @@ export const GenreProvider: React.FC = ({ children }) => {
     return genres.find(genre => genre.id === selectedGenreId);
   }, [genres, selectedGenreId])
 
-  function handleSetSelectedGenre(id: number) {
+  const handleSetSelectedGenre = useCallback((id: number) => {
     setSelectedGenreId(id);
-  }
+  }, [])
 
   useEffect(() => {
     api.get<GenreResponseProps[]>('genres').then(response => {
